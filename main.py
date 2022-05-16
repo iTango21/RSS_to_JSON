@@ -18,15 +18,16 @@ with open('in/links.txt') as file:
 
 with requests.Session() as session:
     for url in urls:
-        print(url)
+
         try:
             response = session.get(url=url, headers=headers)
+            print(url)
             # if response.status_code == 200:
             #     print('Success!')
             # elif response.status_code == 404:
             #     print('Not Found.')
         except:
-            print('Not Found!!!')
+            print(f'Not Found: {url} !_!_!_!_!')
 
 # feeds = [feedparser.parse(url)['entries'] for url in urls]
 # #print(feeds[1][0].keys())
