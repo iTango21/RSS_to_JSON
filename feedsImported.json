@@ -1,18 +1,18 @@
 [
     {
-        "title": "2222 Queen attends Platinum Jubilee equestrian extravaganza",
+        "title": "3333 Queen attends Platinum Jubilee equestrian extravaganza",
         "title_detail": {
             "type": "text/plain",
             "language": null,
             "base": "https://www.itango.com.ua/_test_/test_1.xml",
-            "value": "2222 Queen attends Platinum Jubilee equestrian extravaganza"
+            "value": "3333 Queen attends Platinum Jubilee equestrian extravaganza"
         },
-        "summary": "22222 Hollywood stars including Helen Mirren and Tom Cruise feature in the show at Windsor Castle.",
+        "summary": "333333 Hollywood stars including Helen Mirren and Tom Cruise feature in the show at Windsor Castle.",
         "summary_detail": {
             "type": "text/html",
             "language": null,
             "base": "https://www.itango.com.ua/_test_/test_1.xml",
-            "value": "22222 Hollywood stars including Helen Mirren and Tom Cruise feature in the show at Windsor Castle."
+            "value": "333333 Hollywood stars including Helen Mirren and Tom Cruise feature in the show at Windsor Castle."
         },
         "links": [
             {
@@ -24,13 +24,13 @@
         "link": "https://www.bbcrrr.co.uk/news/uk-61460345?at_medium=RSS&at_campaign=KARANGA",
         "id": "https://www.bbcrrr.co.uk/news/uk-61460345",
         "guidislink": false,
-        "published": "Mon, 16 May 2022 11:28:53 GMT",
+        "published": "Mon, 16 May 2022 11:38:53 GMT",
         "published_parsed": [
             2022,
             5,
             16,
             11,
-            28,
+            38,
             53,
             0,
             136,

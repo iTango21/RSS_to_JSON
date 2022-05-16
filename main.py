@@ -13,6 +13,17 @@ headers = {
 
 #feed = feedparser.parse('http://feeds.bbci.co.uk/news/rss.xml#')
 
+"""
+http://feeds.bbci.co.uk/news/rss.xml#
+http://feeds.nature.com/nmat/rss/current
+https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml
+http://feeds.bbci.co.uk/news/rss.xml#
+https://news.google.com/rss/search?q=weird+AND+OR+hundred+OR+thousand+OR+million+OR+billion&num=100&newwindow=1&safe=off&client=safari&rls=en&biw=1415&bih=1086&um=1&ie=UTF-8&hl=en-US&gl=US&ceid=US:en
+http://!!!_TEST_for_Not_Found_!!!_feeds.bbci.co.uk/news/world/africa/rss.xml
+http://feeds.bbci.co.uk/news/world/africa/rss.xml
+https://news.google.com/rss/search?q=Elon%20Musk&ceid=US:en&hl=en-US&gl=US
+"""
+
 
 # read LINKS from previously created file
 # !!! CUTTING THE LINE BREAK !!!
@@ -71,15 +82,22 @@ def add_article_to_db(article_title, article_date):
 # We write the procedure for obtaining a feed, checking its presence in the database:
 def read_article_feed(feed):
     feed = feedparser.parse(feed)
-    print(feed)
 
     # feeds = [feedparser.parse(url)['entries'] for url in urls]
     # feed = [item for feed in feeds for item in feed]
 
+    feeds_new = []
+    feeds_new_count = 0
     for article in feed['entries']:
         if article_is_not_db(article['title'], article['published']):
             add_article_to_db(article['title'], article['published'])
-            print('New feed found ' + article['title'] +',' + article['link'])
+            print('New feed found: ' + article['title'] +',' + article['link'])
+            feeds_new.append(article)
+            feeds_new_count += 1
+
+    if feeds_new_count:
+        with open('feedsImported.json', 'w', encoding='utf-8') as file:
+            json.dump(feeds_new, file, indent=4, ensure_ascii=False)
 
 
 # Checking each feed from the list:
