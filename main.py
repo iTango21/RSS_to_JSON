@@ -1,33 +1,42 @@
 import feedparser
 import json
+import requests
+
+headers = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+}
 
 
 #feed = feedparser.parse('http://feeds.bbci.co.uk/news/rss.xml#')
 
-# urls = ['http://feeds.bbci.co.uk/news/rss.xml#',
-#         'http://feeds.nature.com/nmat/rss/current',
-#         'https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml',
-#         'http://feeds.bbci.co.uk/news/rss.xml#',
-#         'https://news.google.com/rss/search?q=weird+AND+OR+hundred+OR+thousand+OR+million+OR+billion&num=100&newwindow=1&safe=off&client=safari&rls=en&biw=1415&bih=1086&um=1&ie=UTF-8&hl=en-US&gl=US&ceid=US:en',
-#         'http://feeds.bbci.co.uk/news/world/africa/rss.xml',
-#         'https://news.google.com/rss/search?q=Elon%20Musk&ceid=US:en&hl=en-US&gl=US',
-#
-#     ]
 
 # читаю ССЫЛКИ из ранее созданного файла
 # !!! ОБРЕЗАЮ СИМВОЛ ПЕРЕНОСА СТРОКИ !!!
 with open('in/links.txt') as file:
-        urls = [line.strip() for line in file.readlines()]
+    urls = [line.strip() for line in file.readlines()]
 
-feeds = [feedparser.parse(url)['entries'] for url in urls]
-#print(feeds[1][0].keys())
+with requests.Session() as session:
+    for url in urls:
+        print(url)
+        try:
+            response = session.get(url=url, headers=headers)
+            # if response.status_code == 200:
+            #     print('Success!')
+            # elif response.status_code == 404:
+            #     print('Not Found.')
+        except:
+            print('Not Found!!!')
 
-#feedparser.parse('https://dev.to/feed')[0].keys()
-
-feed = [item for feed in feeds for item in feed]
-print(feed)
-
-with open('out.json', 'w', encoding='utf-8') as file:
-        json.dump(feed, file, indent=4, ensure_ascii=False)
+# feeds = [feedparser.parse(url)['entries'] for url in urls]
+# #print(feeds[1][0].keys())
+#
+# #feedparser.parse('https://dev.to/feed')[0].keys()
+#
+# feed = [item for feed in feeds for item in feed]
+# #print(feed)
+#
+# with open('out.json', 'w', encoding='utf-8') as file:
+#         json.dump(feed, file, indent=4, ensure_ascii=False)
 
 
