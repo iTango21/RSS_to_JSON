@@ -1,5 +1,5 @@
 import feedparser
-# import hashlib
+import hashlib
 import sqlite3
 import os
 import json
@@ -24,6 +24,112 @@ http://feeds.bbci.co.uk/news/world/africa/rss.xml
 https://news.google.com/rss/search?q=Elon%20Musk&ceid=US:en&hl=en-US&gl=US
 """
 
+scriptDir = os.path.dirname(os.path.realpath(__file__))
+db_connection = sqlite3.connect(scriptDir + r'/rss.sqlite')
+db = db_connection.cursor()
+#db.execute('CREATE TABLE IF NOT EXISTS myrss (link_sha TEXT(64), feed_sha TEXT(64), link TEXT, title TEXT, date TEXT)')
+# db.execute('CREATE TABLE IF NOT EXISTS feeds (feed_link TEXT, feed_sha TEXT(64))')
+
+# id integer primary key autoincrement
+#feed_id INTEGER PRIMARY KEY AUTOINCREMENT, name_id integer primary key AUTOINCREMENT     feed_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+db.execute("""CREATE TABLE IF NOT EXISTS feeds(     
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    feed_link_sha TEXT(64), 
+    feed_link TEXT,
+    feed_sha TEXT(64)
+   );
+""")
+
+db_connection.commit()
+
+db.execute("""CREATE TABLE IF NOT EXISTS items(
+   item_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+   item_title TEXT,
+   item_published TEXT,
+   feed_id INTEGER,
+   FOREIGN KEY (feed_id)  REFERENCES feeds (id) ON DELETE CASCADE);
+""")
+db_connection.commit()
+
+
+def feed_is_not_db(fls):
+    db.execute("SELECT * FROM feeds WHERE feed_link_sha = ?", (fls,))
+    if not db.fetchall():
+        return True
+    else:
+        return False
+
+
+def add_feed_to_db(fls, fl, fs):
+    db.execute("INSERT INTO feeds VALUES (?, ?, ?, ?);", (None, fls, fl, fs))
+    db_connection.commit()
+
+
+def item_is_not_db(fid, t, p):
+    db.execute("SELECT * FROM items WHERE feed_id = ? AND item_title = ? AND item_published = ?", (fid, t, p))
+    if not db.fetchall():
+        return True
+    else:
+        return False
+
+def add_items_to_db(item_title, item_published, feed_id):
+    db.execute("INSERT INTO items VALUES (?, ?, ?, ?)", (None, item_title, item_published, feed_id))
+    db_connection.commit()
+
+def read_items_from_feed(feed):
+    pass
+    # feed = feedparser.parse(feed)
+    #
+    # print(len(feed))
+    #
+    # feeds_new = []
+    # feeds_new_count = 0
+    # for item in feed['entries']:
+    #     #print(item)
+    #
+    #     if item_is_not_db(item['title'], item['published']):
+    #         add_items_to_db(item['title'], item['published'])
+    #         print('New item found: ' + item['title'] +',' + item['link'])
+    #         feeds_new.append(item)
+    #         feeds_new_count += 1
+    #
+    # # if feeds_new_count:
+    # #     with open('feedsImported.json', 'w', encoding='utf-8') as file:
+    # #         json.dump(feeds_new, file, indent=4, ensure_ascii=False)
+
+#=====================================================================================
+
+items_new = []
+
+### ADD items to feed
+###
+def add_items_to_feed_(url, feed_link_sha):
+    print(len(url))
+
+    global items_new
+    items_new_count = 0
+
+    for item in items['entries']:
+
+        db.execute("SELECT id FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
+        feed_id_ = db.fetchone()
+        feed_id = feed_id_[0]
+
+        tit = item['title']
+        try:
+            pub = item['published']
+
+            if item_is_not_db(feed_id, tit, pub):
+                add_items_to_db(item['title'], item['published'], feed_id)
+                print('New item found: ' + item['title'] + ',' + item['link'])
+                items_new.append(item)
+                items_new_count += 1
+        except:
+            print(f'FEED: {url} has an invalid post date format!')
+
+
+
+
 
 # read LINKS from previously created file
 # !!! CUTTING THE LINE BREAK !!!
@@ -34,78 +140,61 @@ my_feeds = []
 
 with requests.Session() as session:
     for url in urls:
-        print(url)
-        try:
+        if url:
             response = session.get(url=url, headers=headers)
-            my_feeds.append(url)
+            feed_link = url
+
+            f_link_hash = hashlib.sha256(str(feed_link).encode('utf-8'))
+            feed_link_sha = f_link_hash.hexdigest()
+
+            #my_feeds.append(url)
             # if response.status_code == 200:
             #     print('Success!')
-            # elif response.status_code == 404:
-            #     print('Not Found.')
-        except:
-            print(f'Not Found: {url} !_!_!_!_!')
+            print(f'status code 200')
+
+            items = feedparser.parse(url)
+
+            # I using entries, because in testing it gave me the same hash.
+            items_updated = items.entries
+
+            hash_object = hashlib.sha256(str(items_updated).encode('utf-8'))
+            feed_sha = hash_object.hexdigest()
+
+            if feed_is_not_db(feed_link_sha):
+                print(f'{feed_link} - feed is NOT db! ADD...')
+                add_feed_to_db( feed_link_sha, feed_link, feed_sha)
+                print(f'New feed found:  {feed_link_sha} - {feed_link} feedSHA: {feed_sha}')
+
+                ### ADD items to feed
+                ###
+                add_items_to_feed_(url, feed_link_sha)
 
 
-# feeds = [feedparser.parse(url)['entries'] for url in urls]
-#
-#
-#
-# #print(feeds[1][0].keys())
-# #feedparser.parse('https://dev.to/feed')[0].keys()
-#
-# feed = [item for feed in feeds for item in feed]
-#
-#
-# with open('out.json', 'w', encoding='utf-8') as file:
-#         json.dump(feed, file, indent=4, ensure_ascii=False)
+            else:
+                print(f'feed: {feed_link} IN db ')
+                db.execute("SELECT feed_sha FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
+                ttt = db.fetchone()
+                if ttt[0] == feed_sha:
+                    print(f'РАВНЫ! {ttt[0]} = {feed_sha}')
+                else:
+                    print(f'!!! НЕ РАВНЫ !!! {ttt[0]} != {feed_sha}')
+                    add_items_to_feed_(url, feed_link_sha)
+            print(f'---------------------------------')
 
 
-scriptDir = os.path.dirname(os.path.realpath(__file__))
-db_connection = sqlite3.connect(scriptDir + '/rss.sqlite')
-db = db_connection.cursor()
-db.execute('CREATE TABLE IF NOT EXISTS myrss (title TEXT, date TEXT)')
-
-
-def article_is_not_db(article_title, article_date):
-    db.execute("SELECT * from myrss WHERE title=? AND date=?", (article_title, article_date))
-    if not db.fetchall():
-        return True
-    else:
-        return False
-
-
-def add_article_to_db(article_title, article_date):
-    db.execute("INSERT INTO myrss VALUES (?,?)", (article_title, article_date))
-    db_connection.commit()
-
-
-# We write the procedure for obtaining a feed, checking its presence in the database:
-def read_article_feed(feed):
-    feed = feedparser.parse(feed)
-
-    # feeds = [feedparser.parse(url)['entries'] for url in urls]
-    # feed = [item for feed in feeds for item in feed]
-
-    feeds_new = []
-    feeds_new_count = 0
-    for article in feed['entries']:
-        if article_is_not_db(article['title'], article['published']):
-            add_article_to_db(article['title'], article['published'])
-            print('New feed found: ' + article['title'] +',' + article['link'])
-            feeds_new.append(article)
-            feeds_new_count += 1
-
-    if feeds_new_count:
-        with open('feedsImported.json', 'w', encoding='utf-8') as file:
-            json.dump(feeds_new, file, indent=4, ensure_ascii=False)
+if items_new:
+    with open('feedsImported.json', 'w', encoding='utf-8') as file:
+        json.dump(items_new, file, indent=4, ensure_ascii=False)
+    items_new = []
 
 
 # Checking each feed from the list:
 def spin_feds():
     for x in my_feeds:
-        read_article_feed(x)
+        read_items_from_feed(x)
 
 
 if __name__ == '__main__':
+    pass
     spin_feds()
-    db_connection.close()
+    #db_connection.close()
