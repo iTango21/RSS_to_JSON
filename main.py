@@ -5,6 +5,7 @@ import os
 import json
 import requests
 
+
 headers = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
@@ -23,6 +24,14 @@ http://!!!_TEST_for_Not_Found_!!!_feeds.bbci.co.uk/news/world/africa/rss.xml
 http://feeds.bbci.co.uk/news/world/africa/rss.xml
 https://news.google.com/rss/search?q=Elon%20Musk&ceid=US:en&hl=en-US&gl=US
 """
+
+
+# with open('./feedsImported.json', 'r') as f:
+#   my_data = json.load(f)
+#
+# with open('feedsImported_all.json', 'w', encoding='utf-8') as file:
+#     json.dump(my_data, file, indent=4, ensure_ascii=False)
+
 
 scriptDir = os.path.dirname(os.path.realpath(__file__))
 db_connection = sqlite3.connect(scriptDir + r'/rss.sqlite')
@@ -175,17 +184,35 @@ with requests.Session() as session:
                 db.execute("SELECT feed_sha FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
                 ttt = db.fetchone()
                 if ttt[0] == feed_sha:
-                    print(f'РАВНЫ! {ttt[0]} = {feed_sha}')
+                    print(f'EQUAL! {ttt[0]} = {feed_sha}')
                 else:
-                    print(f'!!! НЕ РАВНЫ !!! {ttt[0]} != {feed_sha}')
+                    print(f'!!! NOT EQUAL !!! {ttt[0]} != {feed_sha}')
                     add_items_to_feed_(url, feed_link_sha)
             print(f'---------------------------------')
 
-
+# NEW items to file
 if items_new:
-    with open('feedsImported.json', 'w', encoding='utf-8') as file:
+    with open('feedsImported_new_items.json', 'w', encoding='utf-8') as file:
         json.dump(items_new, file, indent=4, ensure_ascii=False)
     items_new = []
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# ALL items to file
+merged = []
+out_files = ('feedsImported_new_items.json', 'feedsImported_all_items.json')
+"""
+!!!
+    At the first start, at least one line must exist in the 'feedsImported_all_items.json' file! 
+!!!
+"""
+for infile in out_files:
+    with open(infile, 'r', encoding='utf-8') as infp:
+        data = json.load(infp)
+        merged.extend(data)
+
+with open('feedsImported_all_items.json', 'w', encoding="utf-8") as outfp:
+    json.dump(merged, outfp)
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # Checking each feed from the list:
