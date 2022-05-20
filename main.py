@@ -22,6 +22,7 @@ timer_seconds = default_seconds
 def timer_start_pause():
     global timer_running
     timer_running = not timer_running  # work | pause
+    print(timer_running)
     if timer_running:  # work
         timer_tick()
 
@@ -40,7 +41,7 @@ def timer_tick():
         timer_seconds -= 1
 
         if timer_seconds == 0:
-            timer_seconds = 10
+            timer_seconds = default_seconds
             _my_()
         show_timer()
 
@@ -49,6 +50,7 @@ def show_timer():
     m = timer_seconds//60
     s = timer_seconds-m*60
     label['text'] = '%02d:%02d' % (m, s)
+
 #
 # =====================================================================================================================
 
@@ -104,29 +106,6 @@ def item_is_not_db(fid, t, p):
 def add_items_to_db(item_title, item_published, feed_id):
     db.execute("INSERT INTO items VALUES (?, ?, ?, ?)", (None, item_title, item_published, feed_id))
     db_connection.commit()
-
-def read_items_from_feed(feed):
-    pass
-    # feed = feedparser.parse(feed)
-    #
-    # print(len(feed))
-    #
-    # feeds_new = []
-    # feeds_new_count = 0
-    # for item in feed['entries']:
-    #     #print(item)
-    #
-    #     if item_is_not_db(item['title'], item['published']):
-    #         add_items_to_db(item['title'], item['published'])
-    #         print('New item found: ' + item['title'] +',' + item['link'])
-    #         feeds_new.append(item)
-    #         feeds_new_count += 1
-    #
-    # # if feeds_new_count:
-    # #     with open('feedsImported.json', 'w', encoding='utf-8') as file:
-    # #         json.dump(feeds_new, file, indent=4, ensure_ascii=False)
-
-#=====================================================================================
 
 items_new = []
 items = []
@@ -196,8 +175,6 @@ def _my_():
                     ### ADD items to feed
                     ###
                     add_items_to_feed_(url, feed_link_sha)
-
-
                 else:
                     print(f'feed: {feed_link} IN db ')
                     db.execute("SELECT feed_sha FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
@@ -234,20 +211,12 @@ def _my_():
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-# # Checking each feed from the list:
-# def spin_feds():
-#     for x in my_feeds:
-#         read_items_from_feed(x)
-
-
 if __name__ == '__main__':
+    _my_()
     root = Tk()
     label = Label(root)
     label.pack()
     Button(root, text='start/pause', command=timer_start_pause).pack()  # запуск/пауза отсчета
     Button(root, text='reset', command=timer_reset).pack()  # сброс
-
     timer_reset()
     root.mainloop()
-    #spin_feds()
-    #db_connection.close()
