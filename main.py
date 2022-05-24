@@ -4,6 +4,7 @@ import sqlite3
 import os
 import json
 from tkinter import Tk, Label, Button
+from pathlib import Path    # checking the existence of program files
 
 scriptDir = os.path.dirname(os.path.realpath(__file__))
 db_connection = sqlite3.connect(scriptDir + r'/rss.sqlite')
@@ -58,10 +59,6 @@ def show_timer():
 
 # =====================================================================================================================
 
-headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
-}
 
 db.execute("""CREATE TABLE IF NOT EXISTS feeds(     
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -232,11 +229,19 @@ def main():
     # ALL items to file
     merged = []
     out_files = ('feedsImported_new_items.json', 'feedsImported_all_items.json')
-    """
-    !!!
-        At the first start, at least one line must exist in the 'feedsImported_all_items.json' file! 
-    !!!
-    """
+
+    fle = Path('feedsImported_all_items.json')
+    if fle.touch():
+        pass
+    else:
+        fle.touch(exist_ok=True)
+        with open('feedsImported_all_items.json', 'w', encoding='utf-8') as file:
+            file.write('[]')
+
+    # clear file...
+    with open('urls.txt', 'w+', encoding='utf-8') as file:
+        file.write('')
+
     for infile in out_files:
         with open(infile, 'r', encoding='utf-8') as infp:
             data = json.load(infp)
