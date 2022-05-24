@@ -3,17 +3,19 @@ import hashlib
 import sqlite3
 import os
 import json
-import requests
-
-# =====================================================================================================================
-#
 from tkinter import Tk, Label, Button
 
+scriptDir = os.path.dirname(os.path.realpath(__file__))
+db_connection = sqlite3.connect(scriptDir + r'/rss.sqlite')
+db = db_connection.cursor()
+
+# =====================================================================================================================
+
 timer_running = True
-with open('config.json', 'r', encoding='utf-8') as infp:
-    data = json.load(infp)
-mm = int(data['time_to_update_min'])
-ss = int(data['time_to_update_sec'])
+
+# Timer :
+mm = 0   # minutes
+ss = 15  # seconds
 
 default_seconds = mm * 60 + ss
 timer_seconds = default_seconds
@@ -22,15 +24,17 @@ timer_seconds = default_seconds
 def timer_start_pause():
     global timer_running
     timer_running = not timer_running  # work | pause
-    print(timer_running)
+    print('Timer running!..')
     if timer_running:  # work
         timer_tick()
+
 
 def timer_reset():
     global timer_running, timer_seconds
     timer_running = False  # stop
     timer_seconds = default_seconds  # start position
     show_timer()
+
 
 def timer_tick():
     global timer_seconds
@@ -42,7 +46,8 @@ def timer_tick():
 
         if timer_seconds == 0:
             timer_seconds = default_seconds
-            _my_()
+            print(f'')
+            main()
         show_timer()
 
 
@@ -51,18 +56,12 @@ def show_timer():
     s = timer_seconds-m*60
     label['text'] = '%02d:%02d' % (m, s)
 
-#
 # =====================================================================================================================
-
 
 headers = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
 }
-
-scriptDir = os.path.dirname(os.path.realpath(__file__))
-db_connection = sqlite3.connect(scriptDir + r'/rss.sqlite')
-db = db_connection.cursor()
 
 db.execute("""CREATE TABLE IF NOT EXISTS feeds(     
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -107,15 +106,17 @@ def add_items_to_db(item_title, item_published, feed_id):
     db.execute("INSERT INTO items VALUES (?, ?, ?, ?)", (None, item_title, item_published, feed_id))
     db_connection.commit()
 
+
 items_new = []
 items = []
+item_new_my = []
 
-### ADD items to feed
-###
+
 def add_items_to_feed_(url, feed_link_sha):
-    print(len(url))
+    #print(len(url))
 
     global items_new
+    global item_new_my
     items_new_count = 0
 
     for item in items['entries']:
@@ -130,67 +131,102 @@ def add_items_to_feed_(url, feed_link_sha):
 
             if item_is_not_db(feed_id, tit, pub):
                 add_items_to_db(item['title'], item['published'], feed_id)
-                print('New item found: ' + item['title'] + ',' + item['link'])
+                #print('New item found: ' + item['title'] + ',' + item['link'])
                 items_new.append(item)
                 items_new_count += 1
+
+                try_bool = True
+                try:
+                    author = item['author']
+                    item_new_my.append(
+                        {
+                            'pubDate': item['published'],
+                            'id': item['id'],
+                            'publisher': url,
+                            'title': item['title'],
+                            'summary': item['summary'],
+                            'author': item['author'],
+                            'URL': item['link']
+                        }
+                    )
+                    print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' + item['author'])
+                    try_bool = False
+                except:
+                    pass
+
+                if try_bool:
+                    item_new_my.append(
+                        {
+                            'pubDate': item['published'],
+                            'id': item['id'],
+                            'publisher': url,
+                            'title': item['title'],
+                            'summary': item['summary'],
+                            'author': 'NONE',
+                            'URL': item['link']
+                        }
+                    )
+                    print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' 'author is NONE!!!')
+
         except:
             print(f'FEED: {url} has an invalid post date format!')
 
-def _my_():
-    # read LINKS from previously created file
-    # !!! CUTTING THE LINE BREAK !!!
+def main():
+    global item_new_my
+
     with open('in/links.txt') as file:
         urls = [line.strip() for line in file.readlines()]
 
-    my_feeds = []
     global items, items_new
 
-    with requests.Session() as session:
-        for url in urls:
-            if url:
-                response = session.get(url=url, headers=headers)
-                feed_link = url
+    for url in urls:
+        if url:
 
-                f_link_hash = hashlib.sha256(str(feed_link).encode('utf-8'))
-                feed_link_sha = f_link_hash.hexdigest()
+            feed_link = url
 
-                #my_feeds.append(url)
-                # if response.status_code == 200:
-                #     print('Success!')
-                print(f'status code 200')
+            f_link_hash = hashlib.sha256(str(feed_link).encode('utf-8'))
+            feed_link_sha = f_link_hash.hexdigest()
 
-                items = feedparser.parse(url)
+            items = feedparser.parse(url)
 
-                # I using entries, because in testing it gave me the same hash.
-                items_updated = items.entries
+            # I using entries, because in testing it gave me the same hash.
+            items_updated = items.entries
 
-                hash_object = hashlib.sha256(str(items_updated).encode('utf-8'))
-                feed_sha = hash_object.hexdigest()
+            hash_object = hashlib.sha256(str(items_updated).encode('utf-8'))
+            feed_sha = hash_object.hexdigest()
 
-                if feed_is_not_db(feed_link_sha):
-                    print(f'{feed_link} - feed is NOT db! ADD...')
-                    add_feed_to_db( feed_link_sha, feed_link, feed_sha)
-                    print(f'New feed found:  {feed_link_sha} - {feed_link} feedSHA: {feed_sha}')
+            if feed_is_not_db(feed_link_sha):
+                #print(f'{feed_link} - feed is NOT db! ADD...')
+                add_feed_to_db( feed_link_sha, feed_link, feed_sha)
+                #print(f'New feed found:  {feed_link_sha} - {feed_link} feedSHA: {feed_sha}')
 
-                    ### ADD items to feed
-                    ###
-                    add_items_to_feed_(url, feed_link_sha)
+                ### ADD items to feed
+                ###
+                add_items_to_feed_(url, feed_link_sha)
+            else:
+                #print(f'feed: {feed_link} IN db ')
+                db.execute("SELECT feed_sha FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
+                ttt = db.fetchone()
+                if ttt[0] == feed_sha:
+                    pass
+                    #print(f'EQUAL! {ttt[0]} = {feed_sha}')
                 else:
-                    print(f'feed: {feed_link} IN db ')
-                    db.execute("SELECT feed_sha FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
-                    ttt = db.fetchone()
-                    if ttt[0] == feed_sha:
-                        print(f'EQUAL! {ttt[0]} = {feed_sha}')
-                    else:
-                        print(f'!!! NOT EQUAL !!! {ttt[0]} != {feed_sha}')
-                        add_items_to_feed_(url, feed_link_sha)
-                print(f'---------------------------------')
+                    #print(f'!!! NOT EQUAL !!! {ttt[0]} != {feed_sha}')
+                    add_items_to_feed_(url, feed_link_sha)
+            #print(f'---------------------------------')
+
+    # clear file...
+
+    with open('feedsImported.json', 'w', encoding='utf-8') as file:
+        json.dump(item_new_my, file, indent=4, ensure_ascii=False)
+    item_new_my = []
 
     # NEW items to file
     if items_new:
         with open('feedsImported_new_items.json', 'w', encoding='utf-8') as file:
             json.dump(items_new, file, indent=4, ensure_ascii=False)
         items_new = []
+
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     # ALL items to file
@@ -211,8 +247,11 @@ def _my_():
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+main()
+
+
 if __name__ == '__main__':
-    _my_()
+    #main()
     root = Tk()
     label = Label(root)
     label.pack()

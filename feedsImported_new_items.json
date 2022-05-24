@@ -1,166 +1,44 @@
 [
     {
-        "title": "Seven treated for breathing problems at Birmingham Sainsbury's",
-        "title_detail": {
-            "type": "text/plain",
-            "language": null,
-            "base": "http://feeds.bbci.co.uk/news/rss.xml",
-            "value": "Seven treated for breathing problems at Birmingham Sainsbury's"
-        },
-        "summary": "The supermarket in Birmingham has been evacuated alongside several other premises within the cordon.",
-        "summary_detail": {
-            "type": "text/html",
-            "language": null,
-            "base": "http://feeds.bbci.co.uk/news/rss.xml",
-            "value": "The supermarket in Birmingham has been evacuated alongside several other premises within the cordon."
-        },
-        "links": [
-            {
-                "rel": "alternate",
-                "type": "text/html",
-                "href": "https://www.bbc.co.uk/news/uk-england-birmingham-61523773?at_medium=RSS&at_campaign=KARANGA"
-            }
-        ],
-        "link": "https://www.bbc.co.uk/news/uk-england-birmingham-61523773?at_medium=RSS&at_campaign=KARANGA",
-        "id": "https://www.bbc.co.uk/news/uk-england-birmingham-61523773",
-        "guidislink": false,
-        "published": "Fri, 20 May 2022 12:03:23 GMT",
-        "published_parsed": [
-            2022,
-            5,
-            20,
-            12,
-            3,
-            23,
-            4,
-            140,
-            0
-        ]
-    },
-    {
-        "title": "Daily Authority: Smartphone sales are weird - Android Authority",
-        "title_detail": {
-            "type": "text/plain",
-            "language": null,
-            "base": "https://news.google.com/rss/search?q=weird+AND+OR+hundred+OR+thousand+OR+million+OR+billion&num=100&newwindow=1&safe=off&client=safari&rls=en&biw=1415&bih=1086&um=1&ie=UTF-8&hl=en-US&gl=US&ceid=US:en",
-            "value": "Daily Authority: Smartphone sales are weird - Android Authority"
-        },
-        "links": [
-            {
-                "rel": "alternate",
-                "type": "text/html",
-                "href": "https://www.androidauthority.com/daily-authority-smartphone-sales-are-weird-3167419/"
-            }
-        ],
-        "link": "https://www.androidauthority.com/daily-authority-smartphone-sales-are-weird-3167419/",
-        "id": "CAIiEKoT9vjEXw96HIqXUkPZziwqFggEKg4IACoGCAownt8nMPWBBjDgpx4",
-        "guidislink": false,
-        "published": "Fri, 20 May 2022 11:20:39 GMT",
-        "published_parsed": [
-            2022,
-            5,
-            20,
-            11,
-            20,
-            39,
-            4,
-            140,
-            0
-        ],
-        "summary": "<a href=\"https://www.androidauthority.com/daily-authority-smartphone-sales-are-weird-3167419/\" target=\"_blank\">Daily Authority: Smartphone sales are weird</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Android Authority</font>",
-        "summary_detail": {
-            "type": "text/html",
-            "language": null,
-            "base": "https://news.google.com/rss/search?q=weird+AND+OR+hundred+OR+thousand+OR+million+OR+billion&num=100&newwindow=1&safe=off&client=safari&rls=en&biw=1415&bih=1086&um=1&ie=UTF-8&hl=en-US&gl=US&ceid=US:en",
-            "value": "<a href=\"https://www.androidauthority.com/daily-authority-smartphone-sales-are-weird-3167419/\" target=\"_blank\">Daily Authority: Smartphone sales are weird</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Android Authority</font>"
-        },
-        "source": {
-            "href": "https://www.androidauthority.com",
-            "title": "Android Authority"
-        }
-    },
-    {
-        "title": "Square Enix files strange trademarks for Final Fantasy 7, Final Bar Line, and Labyrinth Striker - Eurogamer.net",
-        "title_detail": {
-            "type": "text/plain",
-            "language": null,
-            "base": "https://news.google.com/rss/search?q=weird+AND+OR+hundred+OR+thousand+OR+million+OR+billion&num=100&newwindow=1&safe=off&client=safari&rls=en&biw=1415&bih=1086&um=1&ie=UTF-8&hl=en-US&gl=US&ceid=US:en",
-            "value": "Square Enix files strange trademarks for Final Fantasy 7, Final Bar Line, and Labyrinth Striker - Eurogamer.net"
-        },
-        "links": [
-            {
-                "rel": "alternate",
-                "type": "text/html",
-                "href": "https://www.eurogamer.net/square-enix-files-strange-trademarks-for-final-fantasy-7-final-bar-line-and-labyrinth-striker"
-            }
-        ],
-        "link": "https://www.eurogamer.net/square-enix-files-strange-trademarks-for-final-fantasy-7-final-bar-line-and-labyrinth-striker",
-        "id": "CAIiEI2dnQZUkoiK0yr-5f9TWi0qFQgEKg0IACoGCAow0LECMLBwMLCoAw",
-        "guidislink": false,
-        "published": "Fri, 20 May 2022 11:10:50 GMT",
-        "published_parsed": [
-            2022,
-            5,
-            20,
-            11,
-            10,
-            50,
-            4,
-            140,
-            0
-        ],
-        "summary": "<a href=\"https://www.eurogamer.net/square-enix-files-strange-trademarks-for-final-fantasy-7-final-bar-line-and-labyrinth-striker\" target=\"_blank\">Square Enix files strange trademarks for Final Fantasy 7, Final Bar Line, and Labyrinth Striker</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Eurogamer.net</font>",
-        "summary_detail": {
-            "type": "text/html",
-            "language": null,
-            "base": "https://news.google.com/rss/search?q=weird+AND+OR+hundred+OR+thousand+OR+million+OR+billion&num=100&newwindow=1&safe=off&client=safari&rls=en&biw=1415&bih=1086&um=1&ie=UTF-8&hl=en-US&gl=US&ceid=US:en",
-            "value": "<a href=\"https://www.eurogamer.net/square-enix-files-strange-trademarks-for-final-fantasy-7-final-bar-line-and-labyrinth-striker\" target=\"_blank\">Square Enix files strange trademarks for Final Fantasy 7, Final Bar Line, and Labyrinth Striker</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Eurogamer.net</font>"
-        },
-        "source": {
-            "href": "https://www.eurogamer.net",
-            "title": "Eurogamer.net"
-        }
-    },
-    {
-        "title": "An annotated history of Elon Musk buying Twitter - Quartz",
+        "title": "INSIGHT-In a faceoff with Elon Musk, the SEC blinked - Devdiscourse",
         "title_detail": {
             "type": "text/plain",
             "language": null,
             "base": "https://news.google.com/rss/search?q=Elon%20Musk&ceid=US:en&hl=en-US&gl=US",
-            "value": "An annotated history of Elon Musk buying Twitter - Quartz"
+            "value": "INSIGHT-In a faceoff with Elon Musk, the SEC blinked - Devdiscourse"
         },
         "links": [
             {
                 "rel": "alternate",
                 "type": "text/html",
-                "href": "https://qz.com/2167563/an-annotated-history-of-elon-musk-buying-twitter/"
+                "href": "https://www.devdiscourse.com/article/business/2048562-insight-in-a-faceoff-with-elon-musk-the-sec-blinked"
             }
         ],
-        "link": "https://qz.com/2167563/an-annotated-history-of-elon-musk-buying-twitter/",
-        "id": "1437398293",
+        "link": "https://www.devdiscourse.com/article/business/2048562-insight-in-a-faceoff-with-elon-musk-the-sec-blinked",
+        "id": "CBMiaWh0dHBzOi8vd3d3LmRldmRpc2NvdXJzZS5jb20vYXJ0aWNsZS9idXNpbmVzcy8yMDQ4NTYyLWluc2lnaHQtaW4tYS1mYWNlb2ZmLXdpdGgtZWxvbi1tdXNrLXRoZS1zZWMtYmxpbmtlZNIBbWh0dHBzOi8vd3d3LmRldmRpc2NvdXJzZS5jb20vYXJ0aWNsZS9idXNpbmVzcy8yMDQ4NTYyLWluc2lnaHQtaW4tYS1mYWNlb2ZmLXdpdGgtZWxvbi1tdXNrLXRoZS1zZWMtYmxpbmtlZD9hbXA",
         "guidislink": false,
-        "published": "Fri, 20 May 2022 11:00:39 GMT",
+        "published": "Tue, 24 May 2022 11:02:46 GMT",
         "published_parsed": [
             2022,
             5,
-            20,
+            24,
             11,
-            0,
-            39,
-            4,
-            140,
+            2,
+            46,
+            1,
+            144,
             0
         ],
-        "summary": "<ol><li><a href=\"https://qz.com/2167563/an-annotated-history-of-elon-musk-buying-twitter/\" target=\"_blank\">An annotated history of Elon Musk buying Twitter</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Quartz</font></li><li><a href=\"https://www.bloomberg.com/news/articles/2022-05-20/elon-musk-gets-defensive-over-twitter-meme-as-sexual-harassment-report-surfaces\" target=\"_blank\">Elon Musk Gets Defensive Over Twitter Meme as Harassment Report Surfaces</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Bloomberg</font></li><li><a href=\"https://www.cnn.com/2022/05/19/tech/twitter-elon-musk-problems/index.html\" target=\"_blank\">Deal or no deal, Elon Musk could upend Twitter's business for a long time</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CNN</font></li><li><a href=\"https://arstechnica.com/tech-policy/2022/05/twitter-deal-leaves-elon-musk-with-no-easy-way-out/\" target=\"_blank\">Twitter deal leaves Elon Musk with no easy way out</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Ars Technica</font></li><li><strong><a href=\"https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2lWNnJPdEJSSGRLTTRjc2xNelh5Z0FQAQ?oc=5\" target=\"_blank\">View Full Coverage on Google News</a></strong></li></ol>",
+        "summary": "<a href=\"https://www.devdiscourse.com/article/business/2048562-insight-in-a-faceoff-with-elon-musk-the-sec-blinked\" target=\"_blank\">INSIGHT-In a faceoff with Elon Musk, the SEC blinked</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Devdiscourse</font>",
         "summary_detail": {
             "type": "text/html",
             "language": null,
             "base": "https://news.google.com/rss/search?q=Elon%20Musk&ceid=US:en&hl=en-US&gl=US",
-            "value": "<ol><li><a href=\"https://qz.com/2167563/an-annotated-history-of-elon-musk-buying-twitter/\" target=\"_blank\">An annotated history of Elon Musk buying Twitter</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Quartz</font></li><li><a href=\"https://www.bloomberg.com/news/articles/2022-05-20/elon-musk-gets-defensive-over-twitter-meme-as-sexual-harassment-report-surfaces\" target=\"_blank\">Elon Musk Gets Defensive Over Twitter Meme as Harassment Report Surfaces</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Bloomberg</font></li><li><a href=\"https://www.cnn.com/2022/05/19/tech/twitter-elon-musk-problems/index.html\" target=\"_blank\">Deal or no deal, Elon Musk could upend Twitter's business for a long time</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CNN</font></li><li><a href=\"https://arstechnica.com/tech-policy/2022/05/twitter-deal-leaves-elon-musk-with-no-easy-way-out/\" target=\"_blank\">Twitter deal leaves Elon Musk with no easy way out</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Ars Technica</font></li><li><strong><a href=\"https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2lWNnJPdEJSSGRLTTRjc2xNelh5Z0FQAQ?oc=5\" target=\"_blank\">View Full Coverage on Google News</a></strong></li></ol>"
+            "value": "<a href=\"https://www.devdiscourse.com/article/business/2048562-insight-in-a-faceoff-with-elon-musk-the-sec-blinked\" target=\"_blank\">INSIGHT-In a faceoff with Elon Musk, the SEC blinked</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Devdiscourse</font>"
         },
         "source": {
-            "href": "https://qz.com",
-            "title": "Quartz"
+            "href": "https://www.devdiscourse.com",
+            "title": "Devdiscourse"
         }
     }
 ]
