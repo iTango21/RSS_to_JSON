@@ -169,7 +169,6 @@ def add_items_to_feed_(url, feed_link_sha, key):
                     }
                 )
                 # print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
-
         except:
             print(f'FEED: {url} has an invalid post date format!')
 
@@ -178,7 +177,7 @@ def main():
 
     # with open('in/links.txt') as file:
     #     urls = [line.strip() for line in file.readlines()]
-    with open('./in/links.json', 'r', encoding='utf-8') as set_:
+    with open('links.json', 'r', encoding='utf-8') as set_:
         set_data = json.load(set_)
 
     global items, items_new
