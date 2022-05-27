@@ -163,7 +163,7 @@ def add_items_to_feed_(url, feed_link_sha, key):
                         'dateDayofYear': pp_[7],
                         'dateTimezone': pp_[8],
                         'title': item['title'],  # as is “title”
-                        'link': 'http:www.cnn.com/fullilinktothearticleofthe-item',  # as is “link”
+                        'link': item['link'],  # as is “link”
                         'sourceName': source_title,
                         'sourceURL': source_href  # from “source” — “href” and “title”
                     }
