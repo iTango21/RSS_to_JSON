@@ -168,7 +168,7 @@ def add_items_to_feed_(url, feed_link_sha, key):
                         'sourceURL': source_href  # from “source” — “href” and “title”
                     }
                 )
-                # print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
+                print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
         except:
             print(f'FEED: {url} has an invalid post date format!')
 
@@ -246,9 +246,9 @@ def main():
         with open('feedsImported_all_items.json', 'w', encoding='utf-8') as file:
             file.write('[]')
 
-    # clear file...
-    with open('urls.txt', 'w+', encoding='utf-8') as file:
-        file.write('')
+    # # clear file...
+    # with open('urls.txt', 'w+', encoding='utf-8') as file:
+    #     file.write('')
 
     for infile in out_files:
         with open(infile, 'r', encoding='utf-8') as infp:
