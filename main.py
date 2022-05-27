@@ -169,11 +169,8 @@ def add_items_to_feed_(url, feed_link_sha, key):
                         'sourceURL': source_href  # from “source” — “href” and “title”
                     }
                 )
+                # print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
 
-                if try_bool:
-                    print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
-                else:
-                    print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' 'SOURCE is NONE!!!')
         except:
             print(f'FEED: {url} has an invalid post date format!')
 
