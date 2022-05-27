@@ -109,8 +109,8 @@ items = []
 item_new_my = []
 
 
-def add_items_to_feed_(url, feed_link_sha):
-    #print(len(url))
+def add_items_to_feed_(url, feed_link_sha, key):
+
 
     global items_new
     global item_new_my
@@ -132,21 +132,38 @@ def add_items_to_feed_(url, feed_link_sha):
                 items_new.append(item)
                 items_new_count += 1
 
+                pp_ = []
+                for pp in item['published_parsed']:
+                    pp_.append(pp)
+
+                item_s_hash = hashlib.sha256(str(item['summary']).encode('utf-8'))
+                item_hash = item_s_hash.hexdigest()
+
                 try_bool = True
                 try:
-                    author = item['author']
+                    source = item['source']
+                    source_title = item['source']['title']
+                    source_href = item['source']['href']
                     item_new_my.append(
                         {
-                            'pubDate': item['published'],
-                            'id': item['id'],
-                            'publisher': url,
-                            'title': item['title'],
-                            'summary': item['summary'],
-                            'author': item['author'],
-                            'URL': item['link']
+                            'feedname': key,
+                            'itemID': item_hash,
+                            'dateYear': pp_[0], # from “published parsed”
+                            'date month': pp_[1],
+                            'dateDay': pp_[2],
+                            'dateHour': pp_[3],
+                            'dateMinute': pp_[4],
+                            'dateSecond': pp_[5],
+                            'dateDayofWeek': pp_[6],
+                            'dateDayofYear': pp_[7],
+                            'dateTimezone': pp_[8],
+                            'title': item['title'],  # as is “title”
+                            'link': 'http:www.cnn.com/fullilinktothearticleofthe-item',  # as is “link”
+                            'sourceName': source_title,
+                            'sourceURL': source_href  # from “source” — “href” and “title”
                         }
                     )
-                    print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' + item['author'])
+                    print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
                     try_bool = False
                 except:
                     pass
@@ -154,31 +171,41 @@ def add_items_to_feed_(url, feed_link_sha):
                 if try_bool:
                     item_new_my.append(
                         {
-                            'pubDate': item['published'],
-                            'id': item['id'],
-                            'publisher': url,
-                            'title': item['title'],
-                            'summary': item['summary'],
-                            'author': 'NONE',
-                            'URL': item['link']
+                            'feedname': key,
+                            'itemID': item_hash,
+                            'dateYear': pp_[0], # from “published parsed”
+                            'date month': pp_[1],
+                            'dateDay': pp_[2],
+                            'dateHour': pp_[3],
+                            'dateMinute': pp_[4],
+                            'dateSecond': pp_[5],
+                            'dateDayofWeek': pp_[6],
+                            'dateDayofYear': pp_[7],
+                            'dateTimezone': pp_[8],
+                            'title': item['title'],  # as is “title”
+                            'link': 'http:www.cnn.com/fullilinktothearticleofthe-item',  # as is “link”
+                            'sourceName': '',
+                            'sourceURL': ''  # from “source” — “href” and “title”
                         }
                     )
-                    print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' 'author is NONE!!!')
-
+                    print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' 'SOURCE is NONE!!!')
         except:
             print(f'FEED: {url} has an invalid post date format!')
 
 def main():
     global item_new_my
 
-    with open('in/links.txt') as file:
-        urls = [line.strip() for line in file.readlines()]
+    # with open('in/links.txt') as file:
+    #     urls = [line.strip() for line in file.readlines()]
+    with open('./in/links.json', 'r', encoding='utf-8') as set_:
+        set_data = json.load(set_)
 
     global items, items_new
 
-    for url in urls:
+    # for url in urls:
+    for key in set_data:
+        url = set_data[key]
         if url:
-
             feed_link = url
 
             f_link_hash = hashlib.sha256(str(feed_link).encode('utf-8'))
@@ -199,7 +226,7 @@ def main():
 
                 ### ADD items to feed
                 ###
-                add_items_to_feed_(url, feed_link_sha)
+                add_items_to_feed_(url, feed_link_sha, key)
             else:
                 #print(f'feed: {feed_link} IN db ')
                 db.execute("SELECT feed_sha FROM feeds WHERE feed_link_sha = ?", (feed_link_sha,))
@@ -209,7 +236,7 @@ def main():
                     #print(f'EQUAL! {ttt[0]} = {feed_sha}')
                 else:
                     #print(f'!!! NOT EQUAL !!! {ttt[0]} != {feed_sha}')
-                    add_items_to_feed_(url, feed_link_sha)
+                    add_items_to_feed_(url, feed_link_sha, key)
             #print(f'---------------------------------')
 
     # clear file...
