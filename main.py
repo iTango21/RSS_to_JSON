@@ -140,54 +140,39 @@ def add_items_to_feed_(url, feed_link_sha, key):
                 item_hash = item_s_hash.hexdigest()
 
                 try_bool = True
+                source_title = ''
+                source_href = ''
+
                 try:
                     source = item['source']
                     source_title = item['source']['title']
                     source_href = item['source']['href']
-                    item_new_my.append(
-                        {
-                            'feedname': key,
-                            'itemID': item_hash,
-                            'dateYear': pp_[0], # from “published parsed”
-                            'date month': pp_[1],
-                            'dateDay': pp_[2],
-                            'dateHour': pp_[3],
-                            'dateMinute': pp_[4],
-                            'dateSecond': pp_[5],
-                            'dateDayofWeek': pp_[6],
-                            'dateDayofYear': pp_[7],
-                            'dateTimezone': pp_[8],
-                            'title': item['title'],  # as is “title”
-                            'link': 'http:www.cnn.com/fullilinktothearticleofthe-item',  # as is “link”
-                            'sourceName': source_title,
-                            'sourceURL': source_href  # from “source” — “href” and “title”
-                        }
-                    )
-                    print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
                     try_bool = False
                 except:
                     pass
+                item_new_my.append(
+                    {
+                        'feedname': key,
+                        'itemID': item_hash,
+                        'dateYear': pp_[0],  # from “published parsed”
+                        'date month': pp_[1],
+                        'dateDay': pp_[2],
+                        'dateHour': pp_[3],
+                        'dateMinute': pp_[4],
+                        'dateSecond': pp_[5],
+                        'dateDayofWeek': pp_[6],
+                        'dateDayofYear': pp_[7],
+                        'dateTimezone': pp_[8],
+                        'title': item['title'],  # as is “title”
+                        'link': 'http:www.cnn.com/fullilinktothearticleofthe-item',  # as is “link”
+                        'sourceName': source_title,
+                        'sourceURL': source_href  # from “source” — “href” and “title”
+                    }
+                )
 
                 if try_bool:
-                    item_new_my.append(
-                        {
-                            'feedname': key,
-                            'itemID': item_hash,
-                            'dateYear': pp_[0], # from “published parsed”
-                            'date month': pp_[1],
-                            'dateDay': pp_[2],
-                            'dateHour': pp_[3],
-                            'dateMinute': pp_[4],
-                            'dateSecond': pp_[5],
-                            'dateDayofWeek': pp_[6],
-                            'dateDayofYear': pp_[7],
-                            'dateTimezone': pp_[8],
-                            'title': item['title'],  # as is “title”
-                            'link': 'http:www.cnn.com/fullilinktothearticleofthe-item',  # as is “link”
-                            'sourceName': '',
-                            'sourceURL': ''  # from “source” — “href” and “title”
-                        }
-                    )
+                    print(f"New item found:  {item['title']}  {item['link']}  ------------>  Name: {source_title}  URL: {source_href}")
+                else:
                     print('New item found: ' + item['title'] + ',' + item['link'] + ', ------------> ' 'SOURCE is NONE!!!')
         except:
             print(f'FEED: {url} has an invalid post date format!')
