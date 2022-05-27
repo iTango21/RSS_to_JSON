@@ -180,6 +180,7 @@ def main():
     with open('links.json', 'r', encoding='utf-8') as set_:
         set_data = json.load(set_)
 
+
     global items, items_new
 
     # for url in urls:
