@@ -139,7 +139,6 @@ def add_items_to_feed_(url, feed_link_sha, key):
                 item_s_hash = hashlib.sha256(str(item['summary']).encode('utf-8'))
                 item_hash = item_s_hash.hexdigest()
 
-                try_bool = True
                 source_title = ''
                 source_href = ''
 
@@ -147,9 +146,9 @@ def add_items_to_feed_(url, feed_link_sha, key):
                     source = item['source']
                     source_title = item['source']['title']
                     source_href = item['source']['href']
-                    try_bool = False
                 except:
                     pass
+
                 item_new_my.append(
                     {
                         'feedname': key,
