@@ -143,7 +143,6 @@ def add_items_to_feed_(url, feed_link_sha, key):
                 source_href = ''
 
                 try:
-                    source = item['source']
                     source_title = item['source']['title']
                     source_href = item['source']['href']
                 except:
